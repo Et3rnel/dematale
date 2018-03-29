@@ -1,0 +1,1089 @@
+/*---------------EterProd---------------*/
+
+
+
+/*------------------------Gros blocs du site----------------------*/
+
+.google{
+float:left;
+margin-left:5px;}
+header{
+background:url(images/logo_beta.png) no-repeat 75px 10px;
+width:952px; /*Je met 950px + 2px a cause de la largeur des bordures*/
+height:185px;
+margin:auto;}
+#head_menu{
+margin-top:100px;
+box-shadow:0 0 10px #888;
+height:50px;
+margin-top:92px;
+background:url(images/band_head.png) repeat-x;}
+section{
+border:1px solid grey;
+background:white;
+margin:auto;
+margin-bottom:50px;
+width:950px;
+min-height:1090px;}
+
+
+footer{
+text-align:center;
+border-top:1px solid grey;
+padding-top:5px;
+background:#82BCEA url("images/scanlines.png") repeat;
+margin-top:20px;
+height:25px;
+width:100%;}
+
+#band_r,#band_l{
+margin-top:-45px;
+height:80px;
+width:43px;}
+#band_r{
+float:right;
+background:url(images/rubandroit.png) -10px 0px;}
+#band_l{
+background:url(images/rubangauche.png);
+float:left;}
+#g_section{
+margin:auto;
+width:1036px;}
+
+
+.valign{
+vertical-align:middle;}
+/*-----------------------------------------------------------------*/
+
+
+/*--------Menu-------*/
+#menu{
+margin-left:15px;
+margin-top:20px;
+width:200px;
+float:left;
+text-align:center;
+height:1085px;
+background:white;
+border:1px solid #929292;
+border-radius:3px 3px 3px 3px;}
+.avat_menu{
+border:1px solid grey;
+border-radius:3px 3px 3px 3px;
+box-shadow:4px 2px 4px #929292;}
+.no_margin{
+margin-top:0px;}
+.bandeau1,.bandeau2{
+margin-top:2px; /*Pour éviter le bug des coins arrondis*/
+font-size:17px;
+font-weight:bold;
+height:30px;
+background:url(images/bandeau_menu.png) repeat-x;}
+.bandeau2{
+border-bottom:1px solid grey;}
+
+#menu table{
+width:100%;
+font-size:14px;}
+.nbr_ress{
+background:#EBEBEB;
+text-align:right;
+padding-right:15px;}
+.nbr_ress-2{
+background:#EBEBEB;
+text-align:center;
+
+padding-right:15px;}
+.nbr_ress2{
+font-size:14px;
+text-align:center;
+background:#EBEBEB;}
+.icon_ress{
+text-align:center;
+background:#CFCFCF;
+width:65px;
+border-right:1px solid grey;}
+.tr_ress,.tr_ress-b{
+width:250px;
+border-top:1px solid grey;
+height:25px;}
+.tr_ress-b{
+border-bottom:1px solid grey;}
+.tr_ress_bold{
+border-top:1px solid grey;
+border-bottom:2px solid grey;}
+/*-------------------*/
+
+
+
+
+/*-------Corps-------*/
+#corps{
+margin-bottom:40px;
+margin-top:20px;
+width:700px;
+min-height:1060px;
+margin-left:235px;
+background:white;
+border:1px solid #929292;
+border-radius:3px 3px 3px 3px;}
+/*-------------------*/
+
+
+
+
+
+/*------Random-------*/
+.marg180{margin-left:180px;}
+.marg110{margin-left:110px;}
+.marg215{margin-left:215px;}
+.marg70{margin-left:70px;}
+.marg150{margin-left:150px;}
+.marg60{margin-left:60px;}
+.marg30{margin-left:30px;}
+.marg235{margin-left:235px;}
+.marg270{margin-left:270px;}
+.bleu{
+color:#017CBA;}
+
+.ta_r{
+height:30px;
+font-weight:bold;
+text-align:right;}
+.padd-2{
+height:30px;
+padding-left:10px;
+padding-right:10px;}
+.padd,.padd-g,.padd-r{
+padding-left:10px;
+padding-right:10px;}
+.padd-r{
+color:red;}
+.padd-g{
+color:green;}
+th{
+font-size:14px;
+font-weight:normal;}
+.margin-a{
+margin:auto;}
+.admin{
+color:#ED5454;}
+/*-------------------*/
+
+
+
+/*----Transitions----*/
+#white{
+background:#F5F6F6;}
+.h1-w{
+background:url("images/bandeau_2.png");
+font-family:Mangal, sans-serif;
+font-size:16px;
+margin:auto;
+border:1px solid grey;
+border-bottom:none;
+width:300px;
+margin-top:200px;
+text-align:center;}
+#g_form{
+border:1px solid grey;}
+/*-------------------*/
+
+
+
+
+
+
+input[type="submit"]{
+font-family:"Myriad Pro", Mangal, sans-serif;
+font-size:15px; 
+padding-left:10px;
+padding-right:10px;
+color:white;
+background:#2D2D2D;
+border:1px solid grey;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+input[type="submit"]:hover{
+color:#34AEFF;}
+
+
+
+
+/*--Messages privés--*/
+
+.no_msg{
+height:25px;
+border-bottom:1px solid grey;
+text-align:center;}
+.no_msg_l{
+border-left:1px solid grey;
+border-bottom:1px solid grey;}
+.no_msg_r{
+border-right:1px solid grey;
+border-bottom:1px solid grey;}
+tr[class="lu"]{
+border:1px solid grey;
+background:rgba(0,84,252,0.1);}
+tr[class="nlu"]{
+border:1px solid grey;
+background:rgba(0,84,252,0.05);}
+tr[class="msg_cron1"]{
+border:1px solid grey;
+background:#CEECEA;}
+tr[class="msg_cron2"]{
+border:1px solid grey;
+background:#E7F4F4;}
+.mess_mp{
+font-size:12px;
+border:1px solid #C0C1C1;
+padding:5px;
+width:435px;}
+.date-m{
+border:1px solid #C0C1C1;
+width:100px;}
+.expe{
+border:1px solid #C0C1C1;
+width:90px;}
+.fofo_mp,.expe,.date-m,.sup{
+border:1px solid #C0C1C1;
+height:30px;
+font-size:12px;
+text-align:center;}
+.fofo_mp{
+text-align:left;
+padding-left:5px;}
+.th_mp1,.th_mp2,.th_mp3,.th_mp4,.th_mp{
+background:#D9DFE6;
+border:1px solid #C0C1C1;
+height:25px;}
+.th_mp1{
+width:90px;}
+.th_mp2{
+width:380px;}
+.th_mp3{
+width:110px;}
+.th_mp4{
+width:35px;}
+.no_msg,.no_msg_l,.no_msg_r{
+border:1px solid #C0C1C1;
+background:#F2F2F2;}
+.b_id{
+margin-left:270px;
+color:red;}
+/*-------------------*/
+
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+.allymsg{
+text-align:center;
+font-size:14px;
+color:#6495F6;}
+
+
+fieldset{
+margin:auto;
+width:600px;}
+h2 em{
+font-size:15px;}
+.barre{
+text-decoration:line-through;}
+body{
+font-family:Calibri, "Segoe UI", Verdana, Mangal, sans-serif;
+font-size:14px;
+margin:auto;
+width:100%;
+background:#d2d2d2 url(images/floc.png) 69px 5px;}
+p[class="error"] a{
+color:blue;}
+a:hover{
+color:#34AEFF;}
+.center_align {text-align:center;}
+.center_align_t 
+{text-align:center;
+margin-top:0px;
+margin-bottom:0px;}
+a{
+color:black;
+text-decoration:none;}
+.ally_opt{
+text-align:center;
+font-size:16px;}
+
+ul{text-align:left;}
+
+/*-------------------*/
+
+
+
+
+/*----Connexion/inscription----*/
+
+.form{
+box-shadow:4px 4px 4px #929292;
+width:300px;
+margin:auto;
+background:white;
+color:#5f5f5f;
+border:1px solid  #929292;}
+.decal{
+margin-left:20px;
+padding-right:10px;}
+.succes,.error{
+padding-left:20px;
+padding-right:10px;}
+.error,.red{
+color:red;}
+.green,.succes{
+color:green;}
+.retour_index{
+margin:auto;
+margin-top:10px;
+text-align:right;
+width:300px;}
+
+/*----------------------------*/
+
+
+/*---Batiments/Technologies---*/
+.bat05{
+width:100%}
+.bat1{
+border-top:1px solid grey;
+border-bottom:1px solid grey;}
+.bat-a{
+width:100px;
+border-right:1px solid grey;}
+
+.bat2{
+font-size:13px;
+width:250px;
+height:22px;
+border-right:1px solid grey;}
+.bat3{
+font-size:13px;
+width:250px;
+height:22px;
+border-right:1px solid grey;
+border-top:1px solid grey;}
+.bat4{
+font-size:13px;
+width:250px;
+height:72px;
+border-right:1px solid grey;
+border-top:1px solid grey;}
+.bat1 p{
+margin:0px;
+text-align:center;}
+.msg_ress{
+text-align:center;
+color:red;}
+.debug{
+width:100%;
+height:100%;}
+.bat_titre{
+margin-top:0px;
+text-align:center;}
+
+
+/*-----------------------------*/
+
+
+
+
+
+
+
+
+
+/*------------Tableaux------------*/
+table{
+word-wrap:break-word;
+border-collapse:collapse;}
+th{
+height:30px;
+padding:5px;
+border:1px solid #797A7A;}
+/*-----------------------------*/
+
+
+
+li{
+list-style-type : none;}
+/*-----------Profil------------*/
+.pro1,.pro3,.pro4{
+text-align:center;}
+.pro1{
+background:#F7F7FF;
+width:400px;
+margin:auto;
+border:1px solid #C0C1C1}
+.pro2{
+text-align:center;
+padding-top:7px;
+background:#F0EEFF;
+width:100%;
+height:30px;
+border-bottom:1px solid #C0C1C1;}
+.pro3{
+height:105px;
+width:130px;
+border:none;
+border-right:1px solid #C0C1C1;}
+.pro4{
+height:105px;
+width:130px;
+border:none;}
+.pro5{
+text-align:center;
+padding-top:10px;
+padding-bottom:10px;
+width:400px;
+border-top:1px solid #C0C1C1;}
+.pro6{
+padding-top:7px;
+border-top:1px solid #C0C1C1;
+height:33px;
+width:400px;}
+/*-----------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.lvlup{
+text-align:center;
+font-size:18px;}
+
+
+
+
+
+
+
+/*----------------Recadrage des images------------------*/
+.img_att{
+vertical-align:-10px;}
+.img_pts{
+vertical-align:-4px;}
+.img_faq{
+vertical-align:-2px;}
+.img_arm{
+vertical-align:-8px;}
+/*------------------------------------------------------*/
+
+
+
+
+
+.notfound{
+padding-bottom:500px;
+text-align:center;
+font-family:"Myriad Pro", Verdana, Mangal, sans-serif;
+font-size:45px;}
+
+/*------------------------------------------*/
+
+/*----Rapports d'espionnage et de combat----*/
+.link_rc_1{
+color:#18A234;}
+.rapport_combat_1,.rapport_combat_2{
+text-align:center;
+font-size:17px;}
+.rapport_combat_1{
+color:#18A234;}
+.rapport_combat_2{
+color:#DC0033;}
+.mes_pertes{
+float:right;
+margin-top:-113px;
+margin-right:60px;}
+.ses_pertes{
+margin-left:65px;}
+.bugmodif_pertes{
+float:right;
+margin-top:-113px;
+margin-right:60px;}
+.son_armee{
+margin-left:64px;}
+.paysan{
+text-align:center;
+font-size:15px;}
+.cron{
+text-align:center;
+font-size:17px;
+color:#108ABF;}
+.cron_msg{
+font-size:13px;
+padding-left:10px;
+font-family:Mangal, sans-serif;}
+.cron3{
+text-align:center;
+font-size:14px;
+color:#108ABF;
+font-family:Mangal, sans-serif;}
+/*------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.corps2{
+padding-left:15px;
+padding-right:15px;}
+
+.trait_formu{
+border-bottom:1px solid #C0C1C1;
+padding-bottom:5px;}
+
+textarea:hover{
+background:#F0EEFF;}
+textarea{
+background:#F7F7FF;
+}
+textarea[class="reponse"]{
+padding-left:7px;
+border:none;
+max-width:660px;
+background:#F2F2F2;}
+
+
+
+
+
+
+
+h1{
+margin-top:0px;
+text-align:center;
+border-bottom:1px solid grey;
+height:30px;
+background:url("images/bandeau_2.png") repeat-x;
+font-family:"Myriad Pro", Verdana, Mangal, sans-serif;
+font-size:21px;}
+
+/*--------------------------------------------------------------------Clean----------------------------------------------*/
+
+
+
+
+
+
+/*--------------------Commerce-------------------*/
+.trcom{
+border:1px solid #C0C1C1;
+background:#D9DFE6;}
+.tdcom1,.tdcom2,.tdcom3,.tdcom4{
+border:1px solid #C0C1C1;
+background:#F2F2F2;
+height:20px;
+padding:5px;
+padding-left:15px;
+width:110px;}
+/*-----------------------------------------------*/
+
+/*------------Bâtiments/Technologies-------------*/
+.centrer{
+text-align:center;}
+/*-----------------------------------------------*/
+
+/*----------------Messages privés----------------*/
+.mp_vert{
+color:green;
+text-align:center;}
+.mp_rouge{
+color:red;
+text-align:center;}
+input[class="private_mess"]{
+background:#D9DFE6;
+border:none;
+height:25px;
+width:250px;
+padding-left:10px;}
+.tdprive{
+background:#D9DFE6;
+border:1px solid #C0C1C1;
+padding:10px;
+width:780px;}
+.tdprive2{
+padding-bottom:5px;
+border:1px solid #C0C1C1;
+width:780px;
+background:#F2F2F2;}
+.marquage1,.marquage2{
+float:left;}
+.marquage1{
+margin-left:80px;}
+/*-----------------------------------------------*/
+
+/*--------------------Titres---------------------*/
+h2{
+font-size:15px;
+padding-bottom:5px;
+border-bottom:1px solid grey;
+color:#333333;
+font-family:Tahoma, Mangal, sans-serif;
+padding-left:8px;}
+h3{
+background:#D6E2E0;
+margin-bottom:10px;
+margin-top:35px;
+border-bottom:1px solid grey;
+border-top:1px solid grey;
+text-align:center;
+font-size:18px;
+font-family:Mangal, sans-serif;}
+h4{
+font-size:15px;
+padding-bottom:5px;
+padding-left:5px;
+color:#5276EB;
+border-bottom:1px dashed #5276EB;}
+h5{
+font-family:"Myriad Pro", Tahoma, Mangal, sans-serif;
+font-size:18px;}
+.simple_purple{
+font-size:15px;
+font-family:"Myriad Pro", Tahoma, Mangal, sans-serif;
+padding-top:3px;
+padding-bottom:5px;
+border-top:1px solid #C0C1C1;
+border-bottom:1px solid #C0C1C1;
+color:#046380;
+text-align:center;}
+/*-----------------------------------------------*/
+
+/*---------------------Chat----------------------*/
+.chattab{
+table-layout:fixed;
+width:100%;}
+.liens_a a{
+color:#197FBA;}
+.heure{
+color:#626A68;
+font-size:14px;}
+.tdchat1,.tdchat2{
+font-size:14px;
+border:2px solid white;
+background:#E0F1FF;
+padding-top:10px;
+padding-bottom:10px;
+border:2px solid white;}
+.tdchat1{
+border-top:1px solid #C0C1C1;
+background:#CFEBFE;}
+/*-----------------------------------------------*/
+
+/*---------------Gestion de l'armée--------------*/
+.capa_pillage{
+font-size:14px;}
+.armee1,.armee2{
+border-top:1px solid #C0C1C1;
+background:#D9DFE6;
+text-align:center;
+width:100%;
+height:30px;}
+.armee2{
+border-bottom:1px solid #C0C1C1;
+border-top:1px solid #C0C1C1;
+background:#F2F2F2;}
+.armee3{
+margin-top:5px;}
+/*-----------------------------------------------*/
+
+/*-----------------Partie alliance---------------*/
+/*------Le chat-----*/
+.ally_chat{
+table-layout:fixed;
+margin:auto;
+width:92%;}
+.tdchat3,.tdchat4{
+border:2px solid white;
+background:#E1ECF0;
+padding-top:10px;
+padding-bottom:10px;
+border-left:1px solid #C0C1C1;
+border-right:1px solid #C0C1C1;}
+.tdchat3{
+border-top:1px solid #C0C1C1;
+background:#CFDEE3;}
+/*---Partie guerre---*/
+input[class="nostyle"]{
+background:none;
+border:none;
+color:#5B85D9;
+margin-bottom:-15px;}
+.declarationguerre{
+font-size:17px;
+font-family:"Myriad Pro", Calibri, Tahoma, Mangal, sans-serif;}
+/*-------------------*/
+
+
+
+
+.nomalliance{
+font-size:42px;
+color:white;
+font-family:"Myriad Pro", Calibri, Tahoma, Mangal, sans-serif;
+padding-top:55px;
+height:80px;
+text-align:center;
+background:url(images/bordeau.png) center center no-repeat;}
+.allygogo{
+width:100%;}
+select[name="leader"],select[name="kicked"]{
+width:100%;
+border-radius:3px 3px 3px 3px;
+height:25px;
+background:#C6D0CE;
+border:1px solid grey;}
+.tdguerreally,.thguerreally{
+border:1px solid #C0C1C1;
+background:#D9DFE9;
+width:150px;
+text-align:center;
+padding:10px;}
+.thguerreally{
+background:#D9DFE1;}
+.icon_army{
+padding:5px;
+text-align:center;
+background:#CFCFCF;
+border-right:1px solid grey;}
+.tarmy{
+height:59px;
+border:1px solid grey;}
+.nbr_unit{
+background:#EBEBEB;
+text-align:right;
+padding-right:15px;
+width:100%}
+.infoarmy{
+margin-top:25px;
+margin-left:10px;
+float:left;
+width:165px;
+border:1px solid #C0C1C1;}
+.allyarmy{
+padding-top:15px;
+padding-bottom:15px;
+border:2px solid #9B9898;
+width:450px;
+height:323px;
+margin-left:200px;
+margin-top:40px;}
+.list_mbr{
+border:1px solid grey;
+padding:7px;
+padding-left:10px;
+width:140px;
+background:#F2F2F2;}
+.alliance_td,.alliance_td-r,.alliance_td-l,.alliance_td-n{
+border:1px solid #C0C1C1;
+height:30px;
+width:110px;
+background:#F2F2F2;
+text-align:center;}
+.alliance_td-r{
+border-left:none;}
+.alliance_td-l{
+border-right:none;}
+.alliance_td-n{
+border-right:none;
+border-left:none;}
+.description_modele{
+margin-top:0px;
+font-size:14px;
+padding-left:30px;}
+.menu_alliance{
+font-size:15px;
+background:#CFEBFE;
+border:1px solid #C0C1C1;
+height:22px;
+width:100%;
+text-align:center;}
+.coffre1,.coffre2{
+border:1px solid #C0C1C1;}
+.coffre2{
+background:#D9DFE6;
+text-align:right;
+padding-right:10px;}
+.coffre1{
+background:#F2F2F2;}
+/*-----------------------------------------------*/
+
+/*--------------------Random---------------------*/
+hr{
+margin-bottom:20px;
+margin-top:20px;
+width:90%;}
+.bandeau3{
+background:#D9DFE6;
+height:30px; /*---Devrait être la taille du bandeau des tableaux, mais ces derniers ont 10px en moins---*/
+font-size:15px;
+border-bottom:1px solid #C0C1C1;
+padding-top:5px;
+padding-left:10px;}
+.titre_jeu{
+text-align:center;
+font-size:28px;}
+/*-----------------------------------------------*/
+
+/*------------------Classement-------------------*/
+.pagination1{
+font-size:16px;
+margin-left:185px;
+height:28px;
+width:475px;
+text-align:center;
+padding-top:5px;
+border:1px solid #C0C1C1;
+background:#F2F2F2;
+font-family:"Myriad Pro", Tahoma, Mangal, sans-serif;
+font-size:17px;}
+.color_blue{
+color:#2A7DB5;}
+.switch{
+width:120px;
+height:180px;
+border:1px solid #C0C1C1;
+background:#F2F2F2;}
+.pubrank{
+margin-top:30px;
+border:1px solid #C0C1C1;}
+.rankmenu{
+float:left;
+width:120px;
+height:850px;
+margin-left:27px;}
+.ranktab{
+font-family:"Myriad Pro", Mangal, sans-serif;
+font-size:15px;
+text-align:center;
+margin-left:178px;}
+.th_rank{
+background:#D9DFE6;
+height:25px;
+font-size:15px;
+border:1px solid #C0C1C1;}
+.ranktd-1,.ranktd-2,.ranktd-3,.ranktd-4,.ranktd-6,.ranktd-5,.ranktd-1-bis,.ranktd-2-bis,.ranktd-3-bis,.ranktd-4-bis,.ranktd-5-bis,.ranktd-6-bis{
+border:1px solid #C0C1C1;
+height:30px;
+background:#F2F2F2;}
+.ranktd-1{
+width:80px;}
+.ranktd-4{
+width:35px;
+background:white;}
+.ranktd-5{
+width:110px;
+background:#F2F2F2;}
+.ranktd-2{
+width:105px;}
+.ranktd-3{
+width:70px;}
+.ranktd-6{
+width:70px;}
+.ranktd-1-bis,.ranktd-2-bis,.ranktd-3-bis,.ranktd-4-bis,.ranktd-5-bis,.ranktd-6-bis{
+background:#DDE8E9;}
+/*-----------------------------------------------*/
+
+
+
+
+/*---------------------Forum---------------------*/
+.pagination2{
+border:1px solid #C0C1C1;
+border-top:none;
+margin:auto;
+height:22px;
+width:650px;
+text-align:center;
+background:#F2F2F2;
+font-family:"Myriad Pro", Tahoma, Mangal, sans-serif;
+font-size:17px;}
+/*--Partie sujet--*/
+.th_forum{
+background:#D9DFE6;
+height:25px;
+padding-left:10px;
+text-align:left;
+font-size:15px;
+border:1px solid #C0C1C1;}
+.sujet{
+background:#F2F2F2;
+height:30px; 	/*---Force tout les autres td du forum à 30px---*/
+border:1px solid #C0C1C1;
+padding-left:10px;
+width:370px;}
+.auteur{
+border:1px solid #C0C1C1;
+width:90px;
+padding-left:10px;
+background:#EFF0F0;}
+.nb{
+border:1px solid #C0C1C1;
+width:45px;
+text-align:center;
+background:#F2F2F2;}
+.date{
+border:1px solid #C0C1C1;
+padding-left:10px;
+width:110px;
+background:#EFF0F0;}
+#forum{
+width:100%;
+font-size:13px;
+font-family:Verdana, Mangal, sans-serif;
+margin:auto;}
+/*--Partie réponse--*/
+.auteur_reponse{
+text-align:center;
+background:white;
+border:1px solid #C0C1C1;
+}
+.message{
+padding:5px;
+border:1px solid #C0C1C1;
+background:#F2F2F2;
+
+width:425px;
+}
+.date_reponse{
+text-align:center;
+border:1px solid #C0C1C1;
+
+background:#F2F2F2;}
+/*-----------------------------------------------*/
+/*-----------------------Header-------------------------*/
+.tdhead{
+padding-top:15px;
+font-family:Verdana, Mangal, sans-serif;
+font-size:14px;
+padding-left:11px;
+padding-right:11px;
+text-align:center;}
+.nbr_msg{
+color:#0B86D8;
+font-family:"Myriad Pro", Mangal, sans-serif;
+font-style:italic;
+font-weight:bold;
+font-size:16px}
+.tdhead a:hover{
+color:black;}
+/*------------------------------------------------------*/
+
+
+/*----------Profil----------*/
+.profil_text,.profil_espio{
+margin:0px;
+font-size:16px;
+text-align:center;}
+.profil_espio{
+margin-top:10px;}
+/*--------------------------*/
+
+
+
+/*-----------------------Alliance-------------------------*/
+.coffre{
+margin-left:20px;
+margin-top:40px;
+float:left;}
+.img_coffre{
+vertical-align:-2px;}
+.nextcoffre{
+margin-top:70px;
+margin-left:310px;}
+/*--------------------------------------------------------*/
+
+
+/*-----------------Page espace personnel------------------*/
+.pritd{
+padding:5px;
+text-align:center;
+background:#D9DFE6;
+border:1px solid grey;}
+.textprivate{
+border:1px solid grey;
+width:300px;
+height:130px;
+padding:10px;
+background:#CCCCCC;
+font-size:17px;}
+input[class="subprivate"]{
+margin-top:15px;
+text-align:center;
+width:250px;
+height:35px;
+font-family:"Myriad Pro", Mangal, sans-serif; 
+font-size:18px;}
+/*--------------------------------------------------------*/
+
+/*-----------------Rapport d'espionnage-------------------*/
+.rap_espio1{
+text-align:center;
+font-size:16px;}
+.rap_espio3{
+color:orange;
+font-size:12px;}
+.espio1{
+padding:5px;
+background:#D9DFE6;
+border:1px solid grey;
+width:100px;}
+.espio2{
+text-align:right;
+padding:5px;
+padding-right:20px;
+border:1px solid grey;
+background:#F2F2F2;
+width:270px;}
+.espiopio{
+margin:auto;
+margin-bottom:50px;}
+.spydifzero{
+text-align:center;
+color:#3049AF}
+/*--------------------------------------------------------*/
+

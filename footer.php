@@ -1,0 +1,1 @@
+<footer><a href="don.php">Faire un don</a> | <?php echo $connectes; ?> joueur<?php if($connectes>1){echo 's';}?> connecté<?php if($connectes>1){echo 's';}?></footer>
