@@ -1,6 +1,6 @@
 <header>
 	<div>
-		<a href="http://www.facebook.com/Geasscraft"><img src="/Dematale/images/fb_icon.png" alt="Like us !"/></a><br/>
+		<a href="http://www.facebook.com/Geasscraft"><img src="/images/fb_icon.png" alt="Like us !"/></a><br/>
 	</div>
 
 	<div class="google"><div class="g-plusone" data-annotation="none"></div></div>
@@ -20,10 +20,10 @@
 
 <table class="margin-a">
 <tr>
-	<td class="tdhead"><a href="/Dematale/index.php"> <img class="img_faq" src="/Dematale/images/home.png" alt="Bouton home"/> Home</a></td>
+	<td class="tdhead"><a href="/index.php"> <img class="img_faq" src="/images/home.png" alt="Bouton home"/> Home</a></td>
 	<?php if(!isset($_SESSION['id']))
 			{ ?>
-	<td class="tdhead"><a href="/Dematale/connexion.php">Se connecter</a></td>
+	<td class="tdhead"><a href="/connexion.php">Se connecter</a></td>
 			<?php }
 	if(isset($_SESSION['id']))
 	{
@@ -38,7 +38,7 @@
 		$nbr_lignes = $nbr_mp->fetchColumn(); ?>
 
 
-	<td class="tdhead"><a href="/Dematale/mess_priv.php">Messages</a> <span class="nbr_msg"> <?php if($nbr_lignes>0) echo $nbr_lignes; ?></span></td>
+	<td class="tdhead"><a href="/mess_priv.php">Messages</a> <span class="nbr_msg"> <?php if($nbr_lignes>0) echo $nbr_lignes; ?></span></td>
 
 	<?php }
 
@@ -50,25 +50,25 @@
 
 		$page = ceil(($define['classement']+1)/20);
 
-		echo '<td class="tdhead"><a href="/Dematale/classement.php?page='.$page.'">Classement</a></td>';
+		echo '<td class="tdhead"><a href="/classement.php?page='.$page.'">Classement</a></td>';
 	}	?>
 
 	<?php if(isset($_SESSION['id']))
 	{ ?>
 
-	<td class="tdhead"><img src="/Dematale/images/ally.png" alt="Alliance" class="img_coffre"/><a href="/Dematale/alliance.php"> <?php if($membres['notif_chat_alliance']!=0){echo' Alliance <span class="nbr_msg">'.$membres['notif_chat_alliance'].'</span>';}else{echo' Alliance';}?></a></td>
+	<td class="tdhead"><img src="/images/ally.png" alt="Alliance" class="img_coffre"/><a href="/alliance.php"> <?php if($membres['notif_chat_alliance']!=0){echo' Alliance <span class="nbr_msg">'.$membres['notif_chat_alliance'].'</span>';}else{echo' Alliance';}?></a></td>
 			<?php }; ?>
-			<?php if(isset($_SESSION['id']) && $niveau_du_membre>1) { ?> <td class="tdhead"><img src="/Dematale/images/icon_commerce.png" class="img_pts" alt="Icon du commerce"/><a href="/Dematale/commerce.php"> Commerce</a></td> <?php } ?>
-	<td class="tdhead"><a href="/Dematale/private.php">Profil</a></td>
-	<td class="tdhead"><a href="/Dematale/forum.php">Forum</a></td>
-	<td class="tdhead"><a href="/Dematale/chat.php">Chat <?php if(isset($_SESSION['id']) && $membres['notif_chat']!=0) echo '<span class="nbr_msg">'.$membres['notif_chat'].'</span>'; ?></a> </td>
+			<?php if(isset($_SESSION['id']) && $niveau_du_membre>1) { ?> <td class="tdhead"><img src="/images/icon_commerce.png" class="img_pts" alt="Icon du commerce"/><a href="/commerce.php"> Commerce</a></td> <?php } ?>
+	<td class="tdhead"><a href="/private.php">Profil</a></td>
+	<td class="tdhead"><a href="/forum.php">Forum</a></td>
+	<td class="tdhead"><a href="/chat.php">Chat <?php if(isset($_SESSION['id']) && $membres['notif_chat']!=0) echo '<span class="nbr_msg">'.$membres['notif_chat'].'</span>'; ?></a> </td>
 
 
 			<?php if(isset($_SESSION['id']))
 			{ ?>
-	<td class="tdhead"><a href="/Dematale/deconnexion.php">Se déconnecter</a></td>
+	<td class="tdhead"><a href="/deconnexion.php">Se déconnecter</a></td>
 			<?php }; ?>
-	<td class="tdhead"><a href="/Dematale/faq.php">F.A.Q <img class="img_faq" src="/Dematale/images/p_intero.png" alt="Icon F.A.Q"/></a></td>
+	<td class="tdhead"><a href="/faq.php">F.A.Q <img class="img_faq" src="/images/p_intero.png" alt="Icon F.A.Q"/></a></td>
 </tr>
 </table>
 
