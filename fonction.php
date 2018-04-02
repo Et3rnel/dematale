@@ -1,5 +1,5 @@
 <?php
-function NegativZero($var)		
+function NegativZero($var)
 {
 	if ($var <= 0){
 	$var2 = 0;
@@ -9,25 +9,25 @@ function NegativZero($var)
 	return $var2;
 }
 
-function DegTruncation($var)		
+function DegTruncation($var)
 {
 	$y = 0;
-	if(($var/10)>10) 
+	if(($var/10)>10)
 	{
 		$y = 1;
-		if(($var/100)>10) 
+		if(($var/100)>10)
 		{
 			$y = 2;
-			if(($var/1000)>10) 
+			if(($var/1000)>10)
 			{
 				$y = 3;
-				if(($var/10000)>10) 
+				if(($var/10000)>10)
 				{
 					$y = 4;
-					if(($var/100000)>10) 
+					if(($var/100000)>10)
 					{
 						$y = 5;
-						if(($var/1000000)>10) 
+						if(($var/1000000)>10)
 						{
 							$y = 6;
 						}
@@ -43,4 +43,3 @@ function DegTruncation($var)
 	return $result;
 }
 ?>
-
