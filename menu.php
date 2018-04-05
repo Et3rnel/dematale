@@ -9,23 +9,14 @@ if (isset($_SESSION['pseudo']))
 
 	$req2 = $bdd->prepare('SELECT fer,bois,roche,gold,titan,paysan,guerrisseur,temps_attaque FROM ressources WHERE id=?');
 	$req2->execute(array($_SESSION['id']));
-	$ressources = $req2->fetch();	
+	$ressources = $req2->fetch();
 
-	$req41=$bdd->prepare('SELECT attaque,defense,nombre FROM armee WHERE type=? AND joueur=?');
-	$req41->execute(array('recrue',$_SESSION['pseudo']));
-	$recrue = $req41->fetch();
+	$reqUnits = $bdd->prepare('SELECT pa.id_unit, pa.unit_amount, ui.attack, ui.defense, ui.unit_name FROM player_army pa
+        INNER JOIN units_informations ui ON pa.id_unit = ui.id_unit
+        WHERE id_player = ?');
+	$reqUnits->execute(array($_SESSION['id']));
+	$units = $reqUnits->fetchAll();
 
-	$req42=$bdd->prepare('SELECT attaque,defense,nombre FROM armee WHERE type=? AND joueur=?');
-	$req42->execute(array('capitaine',$_SESSION['pseudo']));
-	$capitaine = $req42->fetch();
-
-	$req43=$bdd->prepare('SELECT attaque,defense,nombre FROM armee WHERE type=? AND joueur=?');
-	$req43->execute(array('lieutenant',$_SESSION['pseudo']));
-	$lieutenant = $req43->fetch();
-
-	$req44=$bdd->prepare('SELECT attaque,defense,nombre FROM armee WHERE type=? AND joueur=?');
-	$req44->execute(array('commandant',$_SESSION['pseudo']));
-	$commandant = $req44->fetch();
 
 	$req5=$bdd->prepare('SELECT forge FROM niveau WHERE id=?');
 	$req5->execute(array($_SESSION['id']));
@@ -35,10 +26,18 @@ if (isset($_SESSION['pseudo']))
 	$req666->execute(array($_SESSION['id']));
 	$membre = $req666->fetch();
 
-	if($niveau['forge']>0){$forge = ($niveau['forge']*3/100)+1;}else{$forge=1;}
-	$attaque = ($recrue['nombre']*$recrue['attaque'] +  $capitaine['nombre']*$capitaine['attaque'] +  $lieutenant['nombre']*$lieutenant['attaque'] +  $commandant['nombre']*$commandant['attaque'])*$forge;
-	$defense = $recrue['nombre']*$recrue['defense'] +  $capitaine['nombre']*$capitaine['defense'] +  $lieutenant['nombre']*$lieutenant['defense'] +  $commandant['nombre']*$commandant['defense'] + $bat['mur'];
-	?>
+    if($niveau['forge']>0){$forge = ($niveau['forge']*3/100)+1;}else{$forge=1;}
+
+    $attaque = $defense = 0;
+    foreach ($units as $key => $unit) {
+        $attaque += $unit['attack'] * $unit['unit_amount'];
+        $defense += $unit['defense'] * $unit['unit_amount'];
+    }
+
+	$attaque *= $forge;
+	$defense += $bat['mur'];
+
+    ?>
 
 	<div class="bandeau2">
 		<a href="/private.php"><?php if($membres['coupe']!=0){echo '<img src="images/coupes/'.$membres['coupe'].'.png" class="img_pts" alt="Coupe" height="20" width="20"/> ';} echo $_SESSION['pseudo']; ?> - <?php echo $membres['points']; ?> <img src="/images/points.png" class="img_pts" align="bottom" alt="Points" title="Points" height="19"/></a>
@@ -162,22 +161,17 @@ if (isset($_SESSION['pseudo']))
 	<div class="bandeau1">Armée</div>
 
 	<table>
-		<tr class="tr_ress">
-			<td class="icon_ress"><img src="/images/arm_3.png" title="Recrue" alt="Recrue" height="25" width="25"/></td>
-			<td class="nbr_ress"><?php if($recrue['nombre']==0){echo 'Aucun';}else{echo number_format($recrue['nombre'], 0, '.', ' ');} ?></td>
-		</tr>
-		<tr class="tr_ress">
-			<td class="icon_ress"><img src="/images/arm_2.png" title="Lieutenant" alt="Lieutenant" height="25" width="25"/></td>
-			<td class="nbr_ress"><?php if($lieutenant['nombre']==0){echo 'Aucun';}else{echo number_format($lieutenant['nombre'], 0, '.', ' ');} ?></td>
-		</tr>
-		<tr class="tr_ress">
-			<td class="icon_ress"><img src="/images/arm_4.png" title="Capitaine" alt="Capitaine" height="25" width="25"/></td>
-			<td class="nbr_ress"><?php if($capitaine['nombre']==0){echo 'Aucun';}else{echo number_format($capitaine['nombre'], 0, '.', ' ');} ?></td>
-		</tr>
-		<tr class="tr_ress_bold">
-			<td class="icon_ress"><img src="/images/arm_1.png" title="Commandant" alt="Commandant" height="25" width="25"/></td>
-			<td class="nbr_ress"><?php if($commandant['nombre']==0){echo 'Aucun';}else{echo number_format($commandant['nombre'], 0, '.', ' ');} ?></td>
-		</tr>
+        <?php
+        foreach ($units as $key => $unit) {
+            ?>
+                <tr class="tr_ress">
+                    <td class="icon_ress"><img src="/images/army_units/arm_<?= $unit['id_unit']; ?>.png" title="<?= $unit['unit_name']; ?>" alt="<?= $unit['unit_name']; ?>" height="25" width="25"/></td>
+        			<td class="nbr_ress"><?php if($unit['unit_amount'] === 0){echo 'Aucun';}else{echo number_format($unit['unit_amount'], 0, '.', ' ');} ?></td>
+                </tr>
+            <?php
+        }
+        ?>
+
 		<tr class="tr_ress">
 			<td class="icon_ress">Attaque</td>
 			<td class="nbr_ress"><em><?php echo number_format($attaque, 0, '.', ' '); ?></em></td>
@@ -195,10 +189,6 @@ if (isset($_SESSION['pseudo']))
 	$req666->closeCursor();
 	$req1->closeCursor();
 	$req2->closeCursor();
-	$req41->closeCursor();
-	$req42->closeCursor();
-	$req43->closeCursor();
-	$req44->closeCursor();
 	$req5->closeCursor();
 
 

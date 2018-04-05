@@ -8,7 +8,6 @@ require_once 'cnx.php';
 
 //si le formulaire est rempli et que tout est ok
 if (isset($_POST['pseudo']) && isset($_POST['password']) && strlen($_POST['pseudo']) <= 11 && strlen($_POST['pseudo']) >= 5 && $_POST['password'] == $_POST['conf_pass'] && strlen($_POST['password']) >= 5 && filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
-
     $pseudo = addslashes($_POST['pseudo']);
 
     if (preg_match("#^[a-zA-Z0-9]{2,}$#", $_POST['pseudo'])) {
@@ -58,19 +57,27 @@ if (isset($_POST['pseudo']) && isset($_POST['password']) && strlen($_POST['pseud
                 //---------------------------------------------------------------------------------------------------
 
 
-                $req41 = $bdd->prepare('INSERT INTO armee(id,recrue,lieutenant,capitaine,commandant,belier) VALUES(?,?,?,?,?,?)');
-                $req41->execute(array($playerId, 0, 0, 0, 0, 0));
+                // TODO : fetch les types d'unit pour les init à zéro
 
+                $reqUnitTypes = $bdd->query('SELECT id_unit FROM units_informations');
+                $unitTypes = $reqUnitTypes->fetchAll();
 
-                $dateTimeObject = new DateTime();
-                $currentDatetime = $dateTimeObject->format('Y-m-d H:i:s');
+                foreach ($unitTypes as $key => $unit) {
+                    $playerArmy = $bdd->prepare('INSERT INTO player_army(id_unit, id_player, unit_amount) VALUES(?, ?, 0)');
+                    $playerArmy->execute(array($unit['id_unit'], $playerId));
+                }
+
+                $dateTime = getDateTime();
 
                 $req1 = $bdd->prepare('INSERT INTO notification(membre_id, notification_title, notification_text, notification_date) VALUES (?, ?, ?, ?)');
-                $req1->execute(array($playerId, $notificationTitle, $notificationText, $currentDatetime));
+                $req1->execute(array($playerId, $notificationTitle, $notificationText, $dateTime));
 
+                $bdd->commit();
                 redirectTo('connexion', array('success' => 1));
             } catch (PDOException $e) {
                 $bdd->rollback();
+                die($e);
+                // TODO : virer ça pour la prod
                 redirectTo('register', array('techerror' => 1));
             }
 
@@ -109,7 +116,7 @@ if (isset($_POST['pseudo']) && isset($_POST['password']) && strlen($_POST['pseud
 		<link rel="stylesheet" href="design.css" />
         <title>S'inscrire</title>
     </head>
-    <body  id="white">
+    <body id="white">
 
 
 

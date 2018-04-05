@@ -1,1 +1,6 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
+
+# Folder where users avatars are stored
+avatar/
+
+# TODO : déplacer les avatars par défaut à un autre endroit, pour éviter qu'ils soient pris par le gitignore

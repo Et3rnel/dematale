@@ -1,13 +1,4 @@
 <?php
-function NegativZero($var)
-{
-	if ($var <= 0){
-	$var2 = 0;
-	}else{
-	$var2 = $var;
-	}
-	return $var2;
-}
 
 function DegTruncation($var)
 {

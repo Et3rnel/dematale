@@ -1,4 +1,7 @@
-<?php session_start();
+<?php
+session_start();
+require_once '../global_function.php';
+
 include_once'../cnx.php';
 
 if(isset($_POST['prive']))
@@ -12,17 +15,17 @@ if(isset($_POST['prive']))
 		$donnees = $exist->fetch();
 		if (empty($donnees['pseudo']))
 		{
-			 header('Location:../mess_priv.php?msg=notfound'); 
+			 header('Location:../mess_priv.php?msg=notfound');
 		}
 		else
 		{
 			$date=time();
 			$titre=$_POST['sujet_mp'];
 			$message=$_POST['message_mp'];
-		
-			$req_mp = $bdd->prepare('INSERT INTO mess_priv (recepteur,expediteur,titre,message,date_mp) VALUES (?,?,?,?,?)'); 
+
+			$req_mp = $bdd->prepare('INSERT INTO mess_priv (recepteur,expediteur,titre,message,date_mp) VALUES (?,?,?,?,?)');
 			$req_mp->execute(array($recepteur,$_SESSION['pseudo'],$titre,$message,$date));
-		
+
 			 header('Location:../mess_priv.php?msg=succes');
 		}
 	}
