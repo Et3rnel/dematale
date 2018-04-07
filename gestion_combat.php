@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'global_function.php';
+require_once 'class/FightReport.php';
 
 $idDefenser = (int) $_GET['id'];
 
@@ -66,7 +67,7 @@ $ressources_o = $req5->fetch();
 $reqUnits = $bdd->prepare('SELECT pa.id_unit, pa.unit_amount, ui.attack, ui.defense, ui.unit_name, ui.price, ui.looting_capacity FROM player_army pa
     INNER JOIN units_informations ui ON pa.id_unit = ui.id_unit
     WHERE id_player = ?');
-$reqUnits->execute(array($idDefenser);
+$reqUnits->execute(array($idDefenser));
 $defenserUnits = $reqUnits->fetchAll();
 
 $req7 = $bdd->prepare('SELECT mur,grenier FROM production WHERE id=?');
@@ -77,8 +78,9 @@ $mur = $req7->fetch();
 $temps_actu = time();
 $difference = $temps_actu - $timer['temps_attaque'];
 include_once'fonction.php'; // TODO : supprimé à terme
-
-if ($difference >= $temps_vitesse['vitesse']) {
+// TODO remettre comme avant
+// if ($difference >= $temps_vitesse['vitesse']) {
+if (true) {
 
     $totalAttack = $totalDefense = $totalUnitsAttacker = $totalUnitsDefender = 0;
 
@@ -103,7 +105,7 @@ if ($difference >= $temps_vitesse['vitesse']) {
 
 	if($totalAttack >= $totalDefense) {
 
-        $opponentGoldLost = $totalLootingCapacity = 0;
+        $opponentGoldLost = $attackerGoldLost = $totalLootingCapacity = 0;
 
         // lost units calcul
         foreach ($defenserUnits as $key => $unit) {
@@ -115,13 +117,17 @@ if ($difference >= $temps_vitesse['vitesse']) {
         }
 
 		$opponentGoldLost /= 1.5;
+        $opponentPeasants = floor($opponentGoldLost / 1000);
 
         // lost units calcul
         foreach ($attackerUnits as $key => $unit) {
             $attackerUnits[$key]['lost_units'] = (($unit['unit_amount'] / $totalUnitsAttacker) * $opponentGoldLost) / $unit['price'];
             $totalLootingCapacity += $unit['looting_capacity'] * ($unit['unit_amount'] - $defenserUnits[$key]['lost_units']);
+
+            $attackerGoldLost += $attackerUnits[$key]['lost_units'] * $unit['price'];
         }
 
+        $attackerPeasants = floor($attackerGoldLost / 400);
 
 		// Ressources looting
 		$fer_pille = ($totalLootingCapacity - $ressources_o['fer']);
@@ -142,76 +148,22 @@ if ($difference >= $temps_vitesse['vitesse']) {
 		$roche_pille = negativeZero($roche_pille - $mur['grenier']);
 		$gold_pille = negativeZero($gold_pille - $mur['grenier']);
 
+        $stolenRessources = array(
+            array('name' => 'fer', 'quantity' => $fer_pille),
+            array('name' => 'bois', 'quantity' => $bois_pille),
+            array('name' => 'roche', 'quantity' => $roche_pille),
+            array('name' => 'gold', 'quantity' => $gold_pille)
+        );
 
-        // TODO : je m'en suis stoppé là, flemme hue hue hue
-		$var1 = floor(($recrue_p_o*$recrue['prix'] + $capitaine_p_o*$capitaine['prix'] + $lieutenant_p_o*$lieutenant['prix'] + $commandant_p_o*$commandant['prix'])/1000);
-		$var2 = floor(($recrue_p*$recrue['prix'] + $capitaine_p*$capitaine['prix'] + $lieutenant_p*$lieutenant['prix'] + $commandant_p*$commandant['prix'])/400);
-		$paysan = $var1 + $var2;
+		$paysan = $opponentPeasants + $attackerPeasants;
 		$points_o = negativeZero($position_o['points']-2);
 		//-------------Fin du pillage------------------------
 
-
-
-
 		//--------------Génération des rapports de combat--------
-		$message1 = '<p class="rapport_combat_2">Vous vous êtes fait attaqué par '.$_SESSION['pseudo'].' et vous perdez le combat !</p>
+        $fightReport = new FightReport($attackerUnits, $defenserUnits, $fightWon = true, $position_o['pseudo'], $stolenRessources, $paysan);
+        $message2 = $fightReport->generateAttackerReport();
+        $message1 = $fightReport->generateDefenderReport();
 
-		<p class="ses_pertes">Votre armée au moment du combat :<br/>
-		'.number_format($recrue_o['nombre'], 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_o['nombre'], 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_o['nombre'], 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_o['nombre'], 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="ses_pertes">Votre adversaire a perdu :<br/>
-		'.number_format($recrue_p, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="bugmodif_pertes">Vous perdez :<br/>
-		'.number_format($recrue_p_o, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p_o, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p_o, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p_o, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s).</p>
-		<p class="ses_pertes">Il vous a volé :<br/>
-		'.number_format($fer_pille, 0, '.', ' ').' <img src="images/fer_icon.png" alt="icon du fer" align="top" height="15" width="15"/> fer
-		'.number_format($roche_pille, 0, '.', ' ').' <img src="images/roche_icon.png" alt="icon de la roche" align="top" height="15" width="15"/> roche
-		'.number_format($bois_pille, 0, '.', ' ').' <img src="images/bois_icon.png" alt="Icon du bois" align="top" height="15" width="15"/> bois
-		'.number_format($gold_pille, 0, '.', ' ').' <img src="images/gold_icon.png" alt="Icon de l\'or" align="top" height="15" width="15"/> or.</p>';
-		if($position_o['level']>=3){
-		$message1 = $message1.'<p class="paysan">Vous entendez une prière depuis le temple ... <strong>'.number_format($rec_guer_o, 0, '.', ' ').'</strong> recrue(s),
-		<strong>'.number_format($lieu_guer_o, 0, '.', ' ').'</strong> lieutenant(s), <strong>'.number_format($cap_guer_o, 0, '.', ' ').'</strong> capitaine(s) et <strong>'.number_format($com_guer_o, 0, '.', ' ').'</strong>
-		commandant(s) ont pu être ramenés à la vie après la bataille !</p>';}
-		//---------Message 2
-		$message2 = '<p class="rapport_combat_1">Vous remportez le combat !</p>
-		<p class="ses_pertes">Votre armée au moment du combat :<br/>
-		'.number_format($recrue['nombre'], 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant['nombre'], 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine['nombre'], 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant['nombre'], 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="ses_pertes">Votre adversaire a perdu :<br/>
-		'.number_format($recrue_p_o, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p_o, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p_o, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p_o, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="mes_pertes">Vous perdez :<br/>
-		'.number_format($recrue_p, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-
-		<p class="ses_pertes">Vous pillez :
-		'.number_format($fer_pille, 0, '.', ' ').' <img src="images/fer_icon.png" alt="icon du fer" align="top" height="15" width="15"/> fer
-		'.number_format($roche_pille, 0, '.', ' ').' <img src="images/roche_icon.png" alt="icon de la roche" align="top" height="15" width="15"/> roche
-		'.number_format($bois_pille, 0, '.', ' ').' <img src="images/bois_icon.png" alt="Icon du bois" align="top" height="15" width="15"/> bois
-		'.number_format($gold_pille, 0, '.', ' ').' <img src="images/gold_icon.png" alt="Icon de l\'or" align="top" height="15" width="15"/> or.</p>';
-
-		if($paysan > 0){$message2 = $message2.'<p class="paysan">En vous regardant combattre <strong>'.number_format($paysan, 0, '.', ' ').'</strong> <img src="/images/paysan.png" title="Paysan(s)" alt="Paysan(s)" align="top" height="16"/> décident de rejoindre vos rangs.</p>';}
-		else{$message2 = $message2.'<p class="paysan">En regardant le combat, aucun paysan ne semble décidé à vous rejoindre.</p>';}
-
-
-		if($membres['level']>=3){
-		$message2 = $message2.'<p class="paysan">Vous entendez une prière depuis le temple ... <strong>'.number_format($rec_guer, 0, '.', ' ').'</strong> recrue(s),
-		<strong>'.number_format($lieu_guer, 0, '.', ' ').'</strong> lieutenant(s), <strong>'.number_format($cap_guer, 0, '.', ' ').'</strong> capitaine(s) et <strong>'.number_format($com_guer, 0, '.', ' ').'</strong>
-		commandant(s) ont pu être ramenés à la vie après la bataille !</p>';}
 		$titre1 = 'Attaque de '.$_SESSION['pseudo'].'';
 		$titre2 = 'Vous avez attaqué '.$position_o['pseudo'].'';
 
@@ -239,17 +191,11 @@ if ($difference >= $temps_vitesse['vitesse']) {
 		$req8 = $bdd->prepare('UPDATE ressources SET fer=fer+?, roche=roche+?, bois=bois+?, gold=gold+?, paysan=paysan+?, temps_attaque=? WHERE id=?');
 		$req8->execute(array($fer_pille,$roche_pille,$bois_pille,$gold_pille,$paysan,$temps,$_SESSION['id']));
 
-		$req91 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req91->execute(array($recrue_p,$_SESSION['pseudo'],'recrue'));
-
-		$req92 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req92->execute(array($capitaine_p,$_SESSION['pseudo'],'capitaine'));
-
-		$req93 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req93->execute(array($lieutenant_p,$_SESSION['pseudo'],'lieutenant'));
-
-		$req94 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req94->execute(array($commandant_p,$_SESSION['pseudo'],'commandant'));
+        // Adding lost units for the attacker
+        foreach ($attackerUnits as $unit) {
+            $removeArmyReq = $bdd->prepare('UPDATE player_army SET unit_amount = unit_amount - ? WHERE id_player =?  AND id_unit = ?');
+            $removeArmyReq->execute(array($unit['lost_units'], $_SESSION['id'], $unit['id_unit']));
+        }
 
 		$req10 = $bdd->prepare('UPDATE membres SET points=points+4 WHERE id=?');
 		$req10->execute(array($_SESSION['id']));
@@ -257,19 +203,13 @@ if ($difference >= $temps_vitesse['vitesse']) {
 
 		//----------------------Requetes perdant--------
 		$req11 = $bdd->prepare('UPDATE ressources SET fer=fer-?, roche=roche-?, bois=bois-?, gold=gold-? WHERE id=?');
-		$req11->execute(array($fer_pille,$roche_pille,$bois_pille,$gold_pille,$idDefenser));
+		$req11->execute(array($fer_pille,$roche_pille,$bois_pille,$gold_pille, $idDefenser));
 
-		$req121 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req121->execute(array($recrue_p_o,$position_o['pseudo'],'recrue'));
-
-		$req122 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req122->execute(array($capitaine_p_o,$position_o['pseudo'],'capitaine'));
-
-		$req123 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req123->execute(array($lieutenant_p_o,$position_o['pseudo'],'lieutenant'));
-
-		$req124 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req124->execute(array($commandant_p_o,$position_o['pseudo'],'commandant'));
+        // Adding lost units for the attacker
+        foreach ($defenserUnits as $unit) {
+            $removeArmyReq = $bdd->prepare('UPDATE player_army SET unit_amount = unit_amount - ? WHERE id_player =?  AND id_unit = ?');
+            $removeArmyReq->execute(array($unit['lost_units'], $idDefenser, $unit['id_unit']));
+        }
 
 		$req51 = $bdd->prepare('UPDATE membres SET points=? WHERE id=?');
 		$req51->execute(array($points_o,$idDefenser));
@@ -313,112 +253,52 @@ if ($difference >= $temps_vitesse['vitesse']) {
 	}
 	else
 	{
+        $attackerGoldLost = $opponentGoldLost = 0;
 
-		//----Le combat se déroule---------------------------------------------
-		$troupes_total = $recrue['nombre'] + $capitaine['nombre'] + $lieutenant['nombre'] + $commandant['nombre'];
-		$per1 = $recrue['nombre']/$troupes_total;
-		$per2 = $capitaine['nombre']/$troupes_total;
-		$per3 = $lieutenant['nombre']/$troupes_total;
-		$per4 = $commandant['nombre']/$troupes_total;
+		// Lost units calcul
+        foreach ($attackerUnits as $key => $unit) {
+            $unitPercent = $unit['unit_amount'] / $totalUnitsAttacker;
+            $nbLostUnits = $unit['unit_amount'] * $lostPercent * $unitPercent;
+            $attackerUnits[$key]['lost_units'] = floor($nbLostUnits);
 
-		$recrue_p = floor((0.25*$recrue['nombre'])*$per1);
-		$capitaine_p = floor((0.25*$capitaine['nombre'])*$per2);
-		$lieutenant_p = floor((0.25*$lieutenant['nombre'])*$per3);
-		$commandant_p = floor((0.25*$commandant['nombre'])*$per4);
+            $attackerGoldLost += $attackerUnits[$key]['lost_units'] * $unit['price'];
+        }
 
-		$gold_lost_calcul = ($recrue_p*$recrue['prix'] + $capitaine_p*$capitaine['prix'] + $lieutenant_p*$lieutenant['prix'] + $commandant_p*$commandant['prix'])/1.5;
-
-		$troupes_total_o = $recrue_o['nombre'] + $capitaine_o['nombre'] + $lieutenant_o['nombre'] + $commandant_o['nombre']; //1000
-		$per1 = $recrue_o['nombre']/$troupes_total_o * $gold_lost_calcul;
-		$per2 = $capitaine_o['nombre']/$troupes_total_o * $gold_lost_calcul;
-		$per3 = $lieutenant_o['nombre']/$troupes_total_o * $gold_lost_calcul;
-		$per4 = $commandanto['nombre']/$troupes_total_o * $gold_lost_calcul;
+        $attackerGoldLost /= 1.5;
 
 
+        // todo : on est ici
+        foreach ($defenserUnits as $key => $unit) {
+            $defenserUnits[$key]['lost_units'] = (($unit['unit_amount'] / $totalUnitsDefender) * $attackerGoldLost) / $unit['price'];
+            if ($unit['unit_amount'] < $defenserUnits[$key]['lost_units']) {
+                $defenserUnits[$key]['lost_units'] = $unit['unit_amount'];
+            }
 
-		$recrue_p_o = $per1/$recrue_o['prix'];
-		$capitaine_p_o = $per2/$capitaine_o['prix'];
-		$lieutenant_p_o = $per3/$lieutenant_o['prix'];
-		$commandant_p_o = $per4/$commandant_o['prix'];
-
-		if($recrue_o['nombre']<$recrue_p_o) $recrue_p_o = $recrue_o['nombre'];
-		if($capitaine_o['nombre']<$capitaine_p_o) $capitaine_p_o = $capitaine_o['nombre'];
-		if($lieutenant_o['nombre']<$lieutenant_p_o) $lieutenant_p_o = $lieutenant_o['nombre'];
-		if($commandant_o['nombre']<$commandant_p_o) $commandant_p_o = $commandant_o['nombre'];
+            $opponentGoldLost += $defenserUnits[$key]['lost_units'] * $unit['price'];
+        }
 		//----Fin du combat----------------------------------------------------------
 
-		$var1 = floor(($recrue_p_o*$recrue['prix'] + $capitaine_p_o*$capitaine['prix'] + $lieutenant_p_o*$lieutenant['prix'] + $commandant_p_o*$commandant['prix'])/1500);
-		$var2 = floor(($recrue_p*$recrue['prix'] + $capitaine_p*$capitaine['prix'] + $lieutenant_p*$lieutenant['prix'] + $commandant_p*$commandant['prix'])/550);
-		$paysan = $var1 + $var2;
+
+        $opponentPeasants = floor($opponentGoldLost / 1500);
+        $attackerPeasants = floor($attackerGoldLost / 550);
+		$paysan = $opponentPeasants + $attackerPeasants;
 
 
 		//--------------Génération des rapports de combat--------
-		$message1 = '<p class="rapport_combat_1">Vous vous êtes fait attaqué par <a class="link_rc_1" href="profil.php?pseudo='.$_SESSION['pseudo'].'">'.$_SESSION['pseudo'].'</a> !</p>
-		<p class="son_armee">Votre armée au moment du combat :<br/>
-		'.number_format($recrue_o['nombre'], 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_o['nombre'], 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_o['nombre'], 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_o['nombre'], 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="ses_pertes">Votre adversaire perd :<br/>
-		'.number_format($recrue_p, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="mes_pertes">Vous perdez :<br/>
-		'.number_format($recrue_p_o, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p_o, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p_o, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p_o, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s).</p>
-		<p class="paysan">Votre adversaire n\'a pas réussi à vous voler des ressources ! Vous le regardez partir tout en rigolant.</p>';
-		if($paysan>0){ $message1=$message1.'<p class="paysan">En voyant le désastre chez votre adversaire, '.$paysan.' paysans sont venu se joindre à vous !</p>';}
-		if($position_o['level']>=3){
-		$message1 = $message1.'<p class="paysan">Vous entendez une prière depuis le temple ... <strong>'.number_format($rec_guer_o, 0, '.', ' ').'</strong> recrue(s),
-		<strong>'.number_format($lieu_guer_o, 0, '.', ' ').'</strong> lieutenant(s), <strong>'.number_format($cap_guer_o, 0, '.', ' ').'</strong> capitaine(s) et <strong>'.number_format($com_guer_o, 0, '.', ' ').'</strong>
-		commandant(s) ont pu être ramenés à la vie après la bataille !</p>';}
+        $stolenRessources = array();
 
-		//-------------Debut message 2-----------
-		$message2 = '<p class="rapport_combat_2">Votre attaque sur <a class="red" href="profil.php?pseudo='.$position_o['pseudo'].'">'.$position_o['pseudo'].'</a> a échoué !</p>
-		<p class="ses_pertes">Votre armée au moment du combat :<br/>
-		'.number_format($recrue['nombre'], 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant['nombre'], 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine['nombre'], 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant['nombre'], 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="ses_pertes">Votre adversaire perd :<br/>
-		'.number_format($recrue_p_o, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p_o, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p_o, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p_o, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s)</p>
-		<p class="mes_pertes">Vous avez perdu :<br/>
-		'.number_format($recrue_p, 0, '.', ' ').' <img src="images/arm_3.png" alt="Recrues" align="top" height="15" width="15"/> recrue(s)
-		'.number_format($lieutenant_p, 0, '.', ' ').' <img src="images/arm_2.png" alt="Lieutenants" align="top" height="15" width="15"/> lieutenant(s)
-		'.number_format($capitaine_p, 0, '.', ' ').' <img src="images/arm_4.png" alt="Capitaines" align="top" height="15" width="15"/> capitaine(s)
-		'.number_format($commandant_p, 0, '.', ' ').' <img src="images/arm_1.png" alt="Commandants" align="top" height="15" width="15"/> commandant(s).</p>
-		<p class="paysan">Vous ne volez aucune ressources ! En partant, vous apercevez quelques paysans vous regarder tout en rigolant.</p>';
-		if($membres['level']>=3){
-		$message2 = $message2.'<p class="paysan">Vous entendez une prière depuis le temple ... <strong>'.number_format($rec_guer, 0, '.', ' ').'</strong> recrue(s),
-		<strong>'.number_format($lieu_guer, 0, '.', ' ').'</strong> lieutenant(s), <strong>'.number_format($cap_guer, 0, '.', ' ').'</strong> capitaine(s) et <strong>'.number_format($com_guer, 0, '.', ' ').'</strong>
-		commandant(s) ont pu être ramenés à la vie après la bataille !</p>';}
+        $fightReport = new FightReport($attackerUnits, $defenserUnits, $fightWon = false, $position_o['pseudo'], $stolenRessources, $paysan);
+        $message2 = $fightReport->generateAttackerReport();
+        $message1 = $fightReport->generateDefenderReport();
+
 		$titre1 = 'Attaque de '.$_SESSION['pseudo'].'';
 		$titre2 = 'Vous avez attaqué '.$position_o['pseudo'].'';
 		//-------------------------------------------------------
 
-
-
-
-
-
-		//--------Update défenseur-----------------------
-		$req121 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req121->execute(array($recrue_p_o,$position_o['pseudo'],'recrue'));
-
-		$req122 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req122->execute(array($capitaine_p_o,$position_o['pseudo'],'capitaine'));
-
-		$req123 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req123->execute(array($lieutenant_p_o,$position_o['pseudo'],'lieutenant'));
-
-		$req124 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req124->execute(array($commandant_p_o,$position_o['pseudo'],'commandant'));
+        foreach ($defenserUnits as $unit) {
+            $removeArmyReq = $bdd->prepare('UPDATE player_army SET unit_amount = unit_amount - ? WHERE id_player = ?  AND id_unit = ?');
+            $removeArmyReq->execute(array($unit['lost_units'], $idDefenser, $unit['id_unit']));
+        }
 
 		$req51 = $bdd->prepare('UPDATE membres SET points=points+1 WHERE id=?');
 		$req51->execute(array($idDefenser));
@@ -432,17 +312,11 @@ if ($difference >= $temps_vitesse['vitesse']) {
 		$req6 = $bdd->prepare('UPDATE ressources SET temps_attaque=? WHERE id=?');
 		$req6->execute(array($temps_actu,$_SESSION['id']));
 
-		$req121 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req121->execute(array($recrue_p,$_SESSION['pseudo'],'recrue'));
 
-		$req122 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req122->execute(array($capitaine_p,$_SESSION['pseudo'],'capitaine'));
-
-		$req123 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req123->execute(array($lieutenant_p,$_SESSION['pseudo'],'lieutenant'));
-
-		$req124 = $bdd->prepare('UPDATE armee SET nombre=nombre-? WHERE joueur=? AND type=?');
-		$req124->execute(array($commandant_p,$_SESSION['pseudo'],'commandant'));
+        foreach ($attackerUnits as $unit) {
+            $removeArmyReq = $bdd->prepare('UPDATE player_army SET unit_amount = unit_amount - ? WHERE id_player =?  AND id_unit = ?');
+            $removeArmyReq->execute(array($unit['lost_units'], $_SESSION['id'], $unit['id_unit']));
+        }
 		//---------------------------End update attaquant--------
 
 		$temps = time();

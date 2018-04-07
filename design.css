@@ -74,7 +74,7 @@ box-shadow:4px 2px 4px #929292;}
 .no_margin{
 margin-top:0px;}
 .bandeau1,.bandeau2{
-margin-top:2px; /*Pour éviter le bug des coins arrondis*/
+margin-top:2px; /*Pour ï¿½viter le bug des coins arrondis*/
 font-size:17px;
 font-weight:bold;
 height:30px;
@@ -196,7 +196,7 @@ border:1px solid grey;}
 
 input[type="submit"]{
 font-family:"Myriad Pro", Mangal, sans-serif;
-font-size:15px; 
+font-size:15px;
 padding-left:10px;
 padding-right:10px;
 color:white;
@@ -224,7 +224,7 @@ color:#34AEFF;}
 
 
 
-/*--Messages privés--*/
+/*--Messages privï¿½s--*/
 
 .no_msg{
 height:25px;
@@ -316,7 +316,7 @@ color:blue;}
 a:hover{
 color:#34AEFF;}
 .center_align {text-align:center;}
-.center_align_t 
+.center_align_t
 {text-align:center;
 margin-top:0px;
 margin-bottom:0px;}
@@ -511,18 +511,26 @@ text-align:center;
 font-family:"Myriad Pro", Verdana, Mangal, sans-serif;
 font-size:45px;}
 
-/*------------------------------------------*/
 
-/*----Rapports d'espionnage et de combat----*/
+
+
+/* Fight and spy reports style */
+.fight-report-won, .fight-report-lost {
+    text-align: center;
+    font-size: 17px;
+}
+.fight-report-won {
+    color: #18A234;
+}
+.fight-report-lost {
+    color: #DC0033;
+}
+
+
+
+
 .link_rc_1{
 color:#18A234;}
-.rapport_combat_1,.rapport_combat_2{
-text-align:center;
-font-size:17px;}
-.rapport_combat_1{
-color:#18A234;}
-.rapport_combat_2{
-color:#DC0033;}
 .mes_pertes{
 float:right;
 margin-top:-113px;
@@ -622,12 +630,12 @@ padding-left:15px;
 width:110px;}
 /*-----------------------------------------------*/
 
-/*------------Bâtiments/Technologies-------------*/
+/*------------Bï¿½timents/Technologies-------------*/
 .centrer{
 text-align:center;}
 /*-----------------------------------------------*/
 
-/*----------------Messages privés----------------*/
+/*----------------Messages privï¿½s----------------*/
 .mp_vert{
 color:green;
 text-align:center;}
@@ -714,7 +722,7 @@ border-top:1px solid #C0C1C1;
 background:#CFEBFE;}
 /*-----------------------------------------------*/
 
-/*---------------Gestion de l'armée--------------*/
+/*---------------Gestion de l'armï¿½e--------------*/
 .capa_pillage{
 font-size:14px;}
 .armee1,.armee2{
@@ -859,7 +867,7 @@ margin-top:20px;
 width:90%;}
 .bandeau3{
 background:#D9DFE6;
-height:30px; /*---Devrait être la taille du bandeau des tableaux, mais ces derniers ont 10px en moins---*/
+height:30px; /*---Devrait ï¿½tre la taille du bandeau des tableaux, mais ces derniers ont 10px en moins---*/
 font-size:15px;
 border-bottom:1px solid #C0C1C1;
 padding-top:5px;
@@ -952,7 +960,7 @@ font-size:15px;
 border:1px solid #C0C1C1;}
 .sujet{
 background:#F2F2F2;
-height:30px; 	/*---Force tout les autres td du forum à 30px---*/
+height:30px; 	/*---Force tout les autres td du forum ï¿½ 30px---*/
 border:1px solid #C0C1C1;
 padding-left:10px;
 width:370px;}
@@ -976,7 +984,7 @@ width:100%;
 font-size:13px;
 font-family:Verdana, Mangal, sans-serif;
 margin:auto;}
-/*--Partie réponse--*/
+/*--Partie rï¿½ponse--*/
 .auteur_reponse{
 text-align:center;
 background:white;
@@ -1056,7 +1064,7 @@ margin-top:15px;
 text-align:center;
 width:250px;
 height:35px;
-font-family:"Myriad Pro", Mangal, sans-serif; 
+font-family:"Myriad Pro", Mangal, sans-serif;
 font-size:18px;}
 /*--------------------------------------------------------*/
 
@@ -1086,4 +1094,3 @@ margin-bottom:50px;}
 text-align:center;
 color:#3049AF}
 /*--------------------------------------------------------*/
-

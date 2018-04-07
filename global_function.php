@@ -48,3 +48,4 @@ function negativeZero($number)
 }
 
 // TODO : créer une fonction qui check if user connecté
+// TODO : add a format function like number_format but cleaner to use
