@@ -1,15 +1,19 @@
-<?php session_start();
-if(isset($_SESSION['id']))
+<?php
+session_start();
+if (isset($_SESSION['id']))
 {
 	include_once'actu.php';
 	include_once'connectes.php';
-}	?>
+}
+?>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8"/>
 		<link rel="stylesheet" href="design.css" />
+        <!-- <link rel="stylesheet" href="libs/tingle.css" />
+        <script src="libs/tingle.js"></script> -->
         <title>Dematale</title>
 		<meta name="description" content="Jeu de stratégie et de gestion gratuit en ligne par navigateur, avec une époque terrestre puis une époque spatiale">
 		<meta name="keywords" content="gestion,stratégie,jeu en ligne,gratuit,navigateur,rapide,simple,guerre">
@@ -20,6 +24,7 @@ if(isset($_SESSION['id']))
     <body onload="augmentation_ressource()">
 	<?php include_once'header.php'; ?>
 
+    <!-- <script src="js/register_modal.js"></script> -->
 
 
 <div id="g_section">
